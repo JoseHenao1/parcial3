@@ -44,14 +44,14 @@ public class parcial3 {
         matriz[2][7]=1;
         matriz[2][9]=1;
         matriz[3][2]=1;
-        matriz[3][5]=1;
+        matriz[3][7]=1;
         matriz[4][0]=1;
         matriz[4][5]=1;
-        matriz[5][3]=1;
         matriz[5][4]=1;
         matriz[6][7]=1;
         matriz[7][1]=1;
         matriz[7][2]=1;
+        matriz[7][3]=1;
         matriz[7][6]=1;
         matriz[7][9]=1;
         matriz[8][9]=1;       
@@ -74,7 +74,7 @@ public class parcial3 {
     }
     
     public String recorridoCamion(int[][]matriz,int valorInicialX, int[]necesidadEstaciones){
-        String Salida="";
+        String Salida="Desde 0";
         int a;
         int posicion=0;
         int necesidadmayor=0;
@@ -83,11 +83,10 @@ public class parcial3 {
         stac.add(0);  
         boolean[] seRecorrio=new boolean[necesidadEstaciones.length];
         seRecorrio[0]=true;
-        String cadena="";
         for (int i = 1; i <necesidadEstaciones.length; i++) {
             seRecorrio[i]=false;
         }
-        for (int i = 0; i < matriz.length && i!=-1; i++) {
+        for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz.length; j++) {
                 if (matriz[i][j]==1) {
                     if (seRecorrio[j] != true) {
@@ -98,11 +97,8 @@ public class parcial3 {
                                     seRecorrio[posicion]=false;
                                 }
                                 necesidadmayor = necesidadEstaciones[j];
-                                //posicion=j;
-                                // a=(int)stac.pop();
-                                
                                 if (seRecorrio[j] == false) {
-                                    stac.add(j);
+                                    stac.add(j);          
                                     seRecorrio[j] = true;
                                     posicion = j;
                                 }
@@ -110,33 +106,28 @@ public class parcial3 {
                         }
                     }
                 }
-                /*if (j==necesidadEstaciones.length) {
-                    seRecorrio[posicion]=true;
+            }
+            if(necesidadmayor!=0){
+                Salida=Salida+", luego "+posicion;
+                material=material-necesidadmayor;
+                necesidadmayor=0;
+                if (material==0) {
+                    i=matriz.length;
+                }else{
                     i=posicion-1;
-                    cadena=cadena+","+posicion;
-                    valorInicialX=valorInicialX-necesidadEstaciones[posicion];
-                }*/
-            }
-            stac.pop();
-            cadena=cadena+i;
-            material=material-necesidadmayor;
-            necesidadmayor=0;
-
-            i=posicion-1;
-            if (material==0) {
-                i=-1;
-            }
+                }
+            }else{
+                if (!stac.empty()) {
+                    a=stac.pop();
+                    i=a-1;
+                }else{
+                    i=matriz.length;
+                }
+            } 
         }
-        /*for (int i = 0; i < necesidadEstaciones.length; i++) {
-            if (material==0) {
-                i=matriz.length;
-            }
-            if ((valorInicialX!=0) && (seRecorrio[i]==false) && (valorInicialX<necesidadEstaciones[i])) { 
-                i=matriz.length;
-            }
-        } */   
-        System.out.println(cadena);
-        return cadena;
+ 
+        System.out.println(Salida);
+        return Salida;
     }
     
     public static void main(String[] args) {
@@ -145,11 +136,7 @@ public class parcial3 {
         parcial3 obj=new parcial3();
         obj.llenarMatriz(MatrizAdy);
         obj.llenarEstaciones(necesidadEstaciones);
-        obj.recorridoCamion(MatrizAdy, 200, necesidadEstaciones);
-
-
-
-        //obj.mostrarMatriz(MatrizAdy);
+        obj.recorridoCamion(MatrizAdy, 1650, necesidadEstaciones);
     }
     
 }
